@@ -65,7 +65,7 @@ export function HoldingRow({ holding, livePrices, usdNokRate }: Props) {
 
       {/* Shares */}
       <td className="py-2 pr-4 text-right" style={{ color: 'var(--muted-foreground)' }}>
-        {parseFloat(holding.shares).toFixed(holding.type === 'fund' ? 0 : 4)}
+        {parseFloat(holding.shares).toFixed(0)}
       </td>
 
       {/* GAV */}
