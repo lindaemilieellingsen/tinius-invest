@@ -12,48 +12,30 @@ export function PortfolioHeader({ summary }: Props) {
 
   return (
     <div
-      className="p-4 mb-4"
+      className="px-4 pt-6 pb-5 mb-4"
       style={{
         backgroundColor: 'var(--card)',
         border: '1px solid var(--border)',
       }}
     >
-      {/* Top line */}
-      <div className="flex items-center justify-between mb-3">
-        <div className="text-xs" style={{ color: 'var(--muted-foreground)' }}>
-          <span style={{ color: 'var(--green)' }}>$</span> portfolio --status
-        </div>
-        <div className="text-xs" style={{ color: 'var(--muted-foreground)' }}>
-          TINIUS INVEST // NORDNET ASK + AF
-        </div>
+      <div className="text-xs mb-3" style={{ color: 'var(--muted-foreground)' }}>
+        TOTAL PORTEFØLJEVERDI
       </div>
 
-      {/* Total value */}
-      <div className="mb-2">
-        <div className="text-xs mb-1" style={{ color: 'var(--muted-foreground)' }}>
-          TOTAL PORTEFØLJEVERDI
-        </div>
-        <div className="text-3xl font-bold tracking-tight" style={{ color: 'var(--foreground)' }}>
-          {formatNok(summary.totalValueNok)}
-        </div>
+      <div className="text-4xl sm:text-5xl font-bold tracking-tight mb-4" style={{ color: 'var(--foreground)' }}>
+        {formatNok(summary.totalValueNok)}
       </div>
 
-      {/* P&L */}
-      <div className="flex items-center gap-4 text-sm">
-        <div>
-          <span style={{ color: 'var(--muted-foreground)' }} className="text-xs mr-2">
-            UREALISERT P&L:
-          </span>
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+        <div className="flex items-center gap-2">
           <span
-            className="font-bold"
+            className="text-base font-bold"
             style={{ color: isPositive ? 'var(--green)' : 'var(--red)' }}
           >
             {isPositive ? '+' : ''}{formatNok(summary.totalPlNok)}
           </span>
-        </div>
-        <div>
           <span
-            className="text-xs font-bold px-1"
+            className="text-sm font-bold px-1.5 py-0.5"
             style={{
               backgroundColor: isPositive ? 'rgba(0,204,102,0.15)' : 'rgba(255,68,68,0.15)',
               color: isPositive ? 'var(--green)' : 'var(--red)',
@@ -63,7 +45,7 @@ export function PortfolioHeader({ summary }: Props) {
           </span>
         </div>
         <div className="text-xs" style={{ color: 'var(--muted-foreground)' }}>
-          KONTANTER: {formatNok(summary.cashNok)}
+          kontanter: {formatNok(summary.cashNok)}
         </div>
       </div>
     </div>

@@ -46,7 +46,7 @@ export function CombinedHoldingsTable({ accounts, livePrices, usdNokRate }: Prop
                   style={{ borderColor: 'var(--border)', backgroundColor: 'var(--muted)' }}
                 >
                   {/* col 1: HOLDING */}
-                  <td className="px-4 py-2">
+                  <td className="px-4 py-3">
                     <div className="flex items-center gap-2">
                       <span
                         className="text-xs px-1.5 py-0.5 font-bold"
@@ -114,7 +114,7 @@ export function CombinedHoldingsTable({ accounts, livePrices, usdNokRate }: Prop
                       style={{ borderColor: 'var(--border)' }}
                     >
                       {/* Name */}
-                      <td className="px-4 py-2">
+                      <td className="px-4 py-3">
                         <div style={{ color: 'var(--foreground)' }}>
                           {holding.ticker && (
                             <span className="font-bold mr-1" style={{ color: 'var(--green)' }}>

@@ -39,10 +39,10 @@ export function DashboardClient({
     <div>
       {/* Nav */}
       <nav
-        className="flex flex-col sm:flex-row sm:items-center sm:justify-between px-4 py-2 border-b text-xs mb-4 gap-2"
+        className="flex items-center justify-between px-4 py-3 border-b text-xs mb-4"
         style={{ borderColor: 'var(--border)', backgroundColor: 'var(--card)' }}
       >
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-3">
           <span className="font-bold tracking-widest" style={{ color: 'var(--green)' }}>
             TINIUS INVEST
           </span>
@@ -50,14 +50,14 @@ export function DashboardClient({
           <a href="/dashboard" className="tracking-wider" style={{ color: 'var(--foreground)' }}>
             DASHBOARD
           </a>
-          <a href="/transactions" className="tracking-wider" style={{ color: 'var(--muted-foreground)' }}>
+          <a href="/transactions" className="tracking-wider hidden sm:inline" style={{ color: 'var(--muted-foreground)' }}>
             TRANSAKSJONER
           </a>
         </div>
         <PriceRefreshTimer onPricesUpdate={handlePricesUpdate} />
       </nav>
 
-      <div className="px-4 pb-8">
+      <div className="px-4 pb-20 sm:pb-8">
         <PortfolioHeader summary={summary} />
 
         <CombinedHoldingsTable
@@ -69,6 +69,27 @@ export function DashboardClient({
         <div className="mt-2 text-xs text-right" style={{ color: 'var(--muted-foreground)' }}>
           USD/NOK: {usdNokRate.toFixed(4)} // Frankfurter API
         </div>
+      </div>
+
+      {/* Mobile tab bar */}
+      <div
+        className="fixed bottom-0 left-0 right-0 flex sm:hidden border-t text-xs"
+        style={{ backgroundColor: 'var(--card)', borderColor: 'var(--border)' }}
+      >
+        <a
+          href="/dashboard"
+          className="flex-1 py-4 text-center tracking-wider font-bold"
+          style={{ color: 'var(--green)' }}
+        >
+          DASHBOARD
+        </a>
+        <a
+          href="/transactions"
+          className="flex-1 py-4 text-center tracking-wider"
+          style={{ color: 'var(--muted-foreground)' }}
+        >
+          TRANSAKSJONER
+        </a>
       </div>
     </div>
   )
