@@ -35,7 +35,7 @@ export function HoldingRow({ holding, livePrices, usdNokRate }: Props) {
 
   return (
     <tr
-      className="border-b text-xs"
+      className="border-b text-sm"
       style={{ borderColor: 'var(--border)' }}
     >
       {/* Name + ticker */}
@@ -45,7 +45,7 @@ export function HoldingRow({ holding, livePrices, usdNokRate }: Props) {
             <span style={{ color: 'var(--green)' }}>{holding.ticker}</span>
           ) : null}
           {holding.ticker ? ' ' : ''}
-          <span className="font-normal text-xs" style={{ color: 'var(--muted-foreground)' }}>
+          <span className="font-normal text-sm" style={{ color: 'var(--muted-foreground)' }}>
             {holding.name}
           </span>
         </div>

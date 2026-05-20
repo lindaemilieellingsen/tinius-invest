@@ -12,18 +12,18 @@ interface Props {
 export function HoldingsTable({ holdings, livePrices, usdNokRate }: Props) {
   return (
     <div className="overflow-x-auto">
-      <table className="w-full text-xs">
+      <table className="w-full text-sm">
         <thead>
           <tr
             className="border-b"
             style={{ borderColor: 'var(--border)', color: 'var(--muted-foreground)' }}
           >
-            <th className="py-2 pr-4 text-left font-normal tracking-wider">HOLDING</th>
-            <th className="py-2 pr-4 text-right font-normal tracking-wider">ANTALL</th>
-            <th className="py-2 pr-4 text-right font-normal tracking-wider">GAV</th>
-            <th className="py-2 pr-4 text-right font-normal tracking-wider">PRIS</th>
-            <th className="py-2 pr-4 text-right font-normal tracking-wider">VERDI (NOK)</th>
-            <th className="py-2 text-right font-normal tracking-wider">P&L</th>
+            <th className="py-2 pr-4 text-left font-normal tracking-wider text-xs">HOLDING</th>
+            <th className="py-2 pr-4 text-right font-normal tracking-wider text-xs">ANTALL</th>
+            <th className="py-2 pr-4 text-right font-normal tracking-wider text-xs">GAV</th>
+            <th className="py-2 pr-4 text-right font-normal tracking-wider text-xs">PRIS</th>
+            <th className="py-2 pr-4 text-right font-normal tracking-wider text-xs">VERDI (NOK)</th>
+            <th className="py-2 text-right font-normal tracking-wider text-xs">P&L</th>
           </tr>
         </thead>
         <tbody>
