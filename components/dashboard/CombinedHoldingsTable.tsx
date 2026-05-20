@@ -15,18 +15,18 @@ export function CombinedHoldingsTable({ accounts, livePrices, usdNokRate }: Prop
       className="mb-4 overflow-x-auto"
       style={{ backgroundColor: 'var(--card)', border: '1px solid var(--border)' }}
     >
-      <table className="w-full text-sm">
+      <table className="w-full">
         <thead>
           <tr
             className="border-b"
             style={{ borderColor: 'var(--border)', color: 'var(--muted-foreground)' }}
           >
-            <th className="px-4 py-2 text-left font-normal tracking-wider text-xs">HOLDING</th>
-            <th className="px-4 py-2 text-right font-normal tracking-wider text-xs hidden sm:table-cell">ANTALL</th>
-            <th className="px-4 py-2 text-right font-normal tracking-wider text-xs hidden sm:table-cell">GAV</th>
-            <th className="px-4 py-2 text-right font-normal tracking-wider text-xs hidden sm:table-cell">PRIS</th>
-            <th className="px-4 py-2 text-right font-normal tracking-wider text-xs">VERDI (NOK)</th>
-            <th className="px-4 py-2 text-right font-normal tracking-wider text-xs">P&L</th>
+            <th className="px-4 py-3 text-left font-normal tracking-wider text-xs">HOLDING</th>
+            <th className="px-4 py-3 text-right font-normal tracking-wider text-xs hidden sm:table-cell">ANTALL</th>
+            <th className="px-4 py-3 text-right font-normal tracking-wider text-xs hidden sm:table-cell">GAV</th>
+            <th className="px-4 py-3 text-right font-normal tracking-wider text-xs hidden sm:table-cell">PRIS</th>
+            <th className="px-4 py-3 text-right font-normal tracking-wider text-xs">VERDI</th>
+            <th className="px-4 py-3 text-right font-normal tracking-wider text-xs">P&L</th>
           </tr>
         </thead>
         <tbody>
@@ -46,7 +46,7 @@ export function CombinedHoldingsTable({ accounts, livePrices, usdNokRate }: Prop
                   style={{ borderColor: 'var(--border)', backgroundColor: 'var(--muted)' }}
                 >
                   {/* col 1: HOLDING */}
-                  <td className="px-4 py-3">
+                  <td className="px-4 py-4">
                     <div className="flex items-center gap-2">
                       <span
                         className="text-xs px-1.5 py-0.5 font-bold"
@@ -58,7 +58,7 @@ export function CombinedHoldingsTable({ accounts, livePrices, usdNokRate }: Prop
                       >
                         {account.type}
                       </span>
-                      <span className="font-bold text-xs tracking-wider" style={{ color: 'var(--foreground)' }}>
+                      <span className="font-bold text-sm tracking-wide" style={{ color: 'var(--foreground)' }}>
                         {account.name}
                       </span>
                     </div>
@@ -70,15 +70,15 @@ export function CombinedHoldingsTable({ accounts, livePrices, usdNokRate }: Prop
                   {/* col 4: PRIS */}
                   <td className="hidden sm:table-cell" />
                   {/* col 5: VERDI */}
-                  <td className="px-4 py-2 text-right font-bold text-xs" style={{ color: 'var(--foreground)' }}>
+                  <td className="px-4 py-4 text-right font-bold text-sm" style={{ color: 'var(--foreground)' }}>
                     {formatNok(totalValueNok + cashNok)}
                   </td>
                   {/* col 6: P&L */}
-                  <td className="px-4 py-2 text-right text-xs">
+                  <td className="px-4 py-4 text-right text-sm">
                     {totalPlNok !== 0 && (
-                      <div style={{ color: isAccountPositive ? 'var(--green)' : 'var(--red)' }}>
-                        {isAccountPositive ? '+' : ''}{formatPercent(totalPlPercent)}
-                      </div>
+                      <span style={{ color: isAccountPositive ? 'var(--green)' : 'var(--red)' }}>
+                        {formatPercent(totalPlPercent)}
+                      </span>
                     )}
                   </td>
                 </tr>
@@ -86,7 +86,6 @@ export function CombinedHoldingsTable({ accounts, livePrices, usdNokRate }: Prop
                 {/* Holdings rows */}
                 {holdings.map((holding) => {
                   let displayPrice = holding.livePrice
-                  let displayPriceNok = holding.livePriceNok
                   let displayValueNok = holding.valueNok
                   let displayPlNok = holding.plNok
                   let displayPlPercent = holding.plPercent
@@ -95,7 +94,7 @@ export function CombinedHoldingsTable({ accounts, livePrices, usdNokRate }: Prop
                     const lp = livePrices.find((p) => p.ticker === holding.ticker)
                     if (lp) {
                       displayPrice = lp.price
-                      displayPriceNok = holding.currency === 'USD' ? lp.price * usdNokRate : lp.price
+                      const displayPriceNok = holding.currency === 'USD' ? lp.price * usdNokRate : lp.price
                       const shares = parseFloat(holding.shares)
                       displayValueNok = displayPriceNok * shares
                       displayPlNok = displayValueNok - holding.costNok
@@ -114,10 +113,10 @@ export function CombinedHoldingsTable({ accounts, livePrices, usdNokRate }: Prop
                       style={{ borderColor: 'var(--border)' }}
                     >
                       {/* Name */}
-                      <td className="px-4 py-3">
-                        <div style={{ color: 'var(--foreground)' }}>
+                      <td className="px-4 py-4">
+                        <div>
                           {holding.ticker && (
-                            <span className="font-bold mr-1" style={{ color: 'var(--green)' }}>
+                            <span className="font-bold mr-1.5 text-base" style={{ color: 'var(--green)' }}>
                               {holding.ticker}
                             </span>
                           )}
@@ -127,7 +126,7 @@ export function CombinedHoldingsTable({ accounts, livePrices, usdNokRate }: Prop
                         </div>
                         {isPending && (
                           <span
-                            className="text-xs px-1 mt-0.5 inline-block"
+                            className="text-xs px-1 mt-1 inline-block"
                             style={{
                               backgroundColor: 'rgba(255,200,0,0.1)',
                               color: '#ffcc00',
@@ -140,19 +139,19 @@ export function CombinedHoldingsTable({ accounts, livePrices, usdNokRate }: Prop
                       </td>
 
                       {/* Shares */}
-                      <td className="px-4 py-2 text-right hidden sm:table-cell" style={{ color: 'var(--muted-foreground)' }}>
+                      <td className="px-4 py-4 text-right hidden sm:table-cell text-sm" style={{ color: 'var(--muted-foreground)' }}>
                         {parseFloat(holding.shares).toFixed(0)}
                       </td>
 
                       {/* GAV */}
-                      <td className="px-4 py-2 text-right hidden sm:table-cell" style={{ color: 'var(--muted-foreground)' }}>
+                      <td className="px-4 py-4 text-right hidden sm:table-cell text-sm" style={{ color: 'var(--muted-foreground)' }}>
                         {holding.currency === 'USD'
                           ? formatUsd(parseFloat(holding.gav_per_share))
                           : formatNok(parseFloat(holding.gav_per_share))}
                       </td>
 
                       {/* Price */}
-                      <td className="px-4 py-2 text-right hidden sm:table-cell">
+                      <td className="px-4 py-4 text-right hidden sm:table-cell text-sm">
                         {isPending || !hasPrice ? (
                           <span style={{ color: 'var(--muted-foreground)' }}>—</span>
                         ) : holding.type === 'stock' && displayPrice ? (
@@ -165,19 +164,21 @@ export function CombinedHoldingsTable({ accounts, livePrices, usdNokRate }: Prop
                       </td>
 
                       {/* Value NOK */}
-                      <td className="px-4 py-2 text-right">
+                      <td className="px-4 py-4 text-right">
                         {hasPrice ? (
-                          <span style={{ color: 'var(--foreground)' }}>{formatNok(displayValueNok)}</span>
+                          <span className="text-base font-medium" style={{ color: 'var(--foreground)' }}>
+                            {formatNok(displayValueNok)}
+                          </span>
                         ) : (
                           <span style={{ color: 'var(--muted-foreground)' }}>—</span>
                         )}
                       </td>
 
-                      {/* P&L */}
-                      <td className="px-4 py-2 text-right">
+                      {/* P&L — value + % on one line */}
+                      <td className="px-4 py-4 text-right">
                         {hasPrice ? (
                           <div>
-                            <div style={{ color: isPositive ? 'var(--green)' : 'var(--red)' }}>
+                            <div className="text-sm font-medium" style={{ color: isPositive ? 'var(--green)' : 'var(--red)' }}>
                               {isPositive ? '+' : ''}{formatNok(displayPlNok)}
                             </div>
                             <div className="text-xs" style={{ color: isPositive ? 'var(--green)' : 'var(--red)', opacity: 0.8 }}>
@@ -194,14 +195,14 @@ export function CombinedHoldingsTable({ accounts, livePrices, usdNokRate }: Prop
 
                 {/* Cash row */}
                 {cashNok > 0 && (
-                  <tr key={`cash-${account.id}`} style={{ borderColor: 'var(--border)' }}>
-                    <td className="px-4 py-1.5 text-xs" style={{ color: 'var(--muted-foreground)' }}>
-                      KONTANTER
+                  <tr key={`cash-${account.id}`}>
+                    <td className="px-4 py-3 text-sm" style={{ color: 'var(--muted-foreground)' }}>
+                      Kontanter
                     </td>
                     <td className="hidden sm:table-cell" />
                     <td className="hidden sm:table-cell" />
                     <td className="hidden sm:table-cell" />
-                    <td className="px-4 py-1.5 text-right text-xs" style={{ color: 'var(--foreground)' }}>
+                    <td className="px-4 py-3 text-right text-sm" style={{ color: 'var(--foreground)' }}>
                       {formatNok(cashNok)}
                     </td>
                     <td />
