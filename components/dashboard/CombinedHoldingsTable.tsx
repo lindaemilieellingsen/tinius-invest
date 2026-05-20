@@ -45,7 +45,8 @@ export function CombinedHoldingsTable({ accounts, livePrices, usdNokRate }: Prop
                   className="border-b border-t"
                   style={{ borderColor: 'var(--border)', backgroundColor: 'var(--muted)' }}
                 >
-                  <td className="px-4 py-2" colSpan={2}>
+                  {/* col 1: HOLDING */}
+                  <td className="px-4 py-2">
                     <div className="flex items-center gap-2">
                       <span
                         className="text-xs px-1.5 py-0.5 font-bold"
@@ -62,11 +63,17 @@ export function CombinedHoldingsTable({ accounts, livePrices, usdNokRate }: Prop
                       </span>
                     </div>
                   </td>
-                  <td className="px-4 py-2 hidden sm:table-cell" />
-                  <td className="px-4 py-2 hidden sm:table-cell" />
+                  {/* col 2: ANTALL */}
+                  <td className="hidden sm:table-cell" />
+                  {/* col 3: GAV */}
+                  <td className="hidden sm:table-cell" />
+                  {/* col 4: PRIS */}
+                  <td className="hidden sm:table-cell" />
+                  {/* col 5: VERDI */}
                   <td className="px-4 py-2 text-right font-bold text-xs" style={{ color: 'var(--foreground)' }}>
                     {formatNok(totalValueNok + cashNok)}
                   </td>
+                  {/* col 6: P&L */}
                   <td className="px-4 py-2 text-right text-xs">
                     {totalPlNok !== 0 && (
                       <div style={{ color: isAccountPositive ? 'var(--green)' : 'var(--red)' }}>
