@@ -1,12 +1,12 @@
 'use client'
 
 import { useState } from 'react'
-import { PortfolioSummary, LivePrice } from '@/lib/types'
+import { LivePrice, Account, Holding, FundPrice } from '@/lib/types'
 import { PortfolioHeader } from './PortfolioHeader'
-import { AccountCard } from './AccountCard'
+import { CombinedHoldingsTable } from './CombinedHoldingsTable'
 import { PriceRefreshTimer } from './PriceRefreshTimer'
 import { buildPortfolioSummary } from '@/lib/calculations'
-import { Account, Holding, FundPrice } from '@/lib/types'
+import { PortfolioSummary } from '@/lib/types'
 
 interface Props {
   initialSummary: PortfolioSummary
@@ -47,18 +47,10 @@ export function DashboardClient({
             TINIUS INVEST
           </span>
           <span style={{ color: 'var(--border)' }}>|</span>
-          <a
-            href="/dashboard"
-            className="tracking-wider"
-            style={{ color: 'var(--foreground)' }}
-          >
+          <a href="/dashboard" className="tracking-wider" style={{ color: 'var(--foreground)' }}>
             DASHBOARD
           </a>
-          <a
-            href="/transactions"
-            className="tracking-wider"
-            style={{ color: 'var(--muted-foreground)' }}
-          >
+          <a href="/transactions" className="tracking-wider" style={{ color: 'var(--muted-foreground)' }}>
             TRANSAKSJONER
           </a>
         </div>
@@ -68,16 +60,12 @@ export function DashboardClient({
       <div className="px-4 pb-8">
         <PortfolioHeader summary={summary} />
 
-        {summary.accounts.map((accountSummary) => (
-          <AccountCard
-            key={accountSummary.account.id}
-            summary={accountSummary}
-            livePrices={livePrices}
-            usdNokRate={usdNokRate}
-          />
-        ))}
+        <CombinedHoldingsTable
+          accounts={summary.accounts}
+          livePrices={livePrices}
+          usdNokRate={usdNokRate}
+        />
 
-        {/* USD/NOK rate info */}
         <div className="mt-2 text-xs text-right" style={{ color: 'var(--muted-foreground)' }}>
           USD/NOK: {usdNokRate.toFixed(4)} // Frankfurter API
         </div>
