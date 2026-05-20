@@ -2,6 +2,42 @@
 
 import { sql } from '@/lib/db'
 import { revalidatePath } from 'next/cache'
+import { fetchStorebrandNAV } from '@/lib/storebrand'
+
+export async function fetchFundPricesAction(): Promise<{ fund: string; price?: number; date?: string; status: string }[]> {
+  const funds = await sql`
+    SELECT id, name, isin FROM holdings
+    WHERE type = 'fund' AND isin IS NOT NULL AND status != 'sold'
+  `
+
+  const results = []
+
+  for (const fund of funds as { id: number; name: string; isin: string }[]) {
+    const nav = await fetchStorebrandNAV(fund.isin)
+
+    if (!nav) {
+      results.push({ fund: fund.name, status: 'failed' })
+      continue
+    }
+
+    await sql`
+      INSERT INTO fund_prices (holding_id, price_nok, price_date, note)
+      VALUES (${fund.id}, ${nav.price}, ${nav.date}, 'auto-hentet fra storebrand.no')
+      ON CONFLICT (holding_id, price_date) DO UPDATE SET price_nok = EXCLUDED.price_nok
+    `
+
+    await sql`
+      UPDATE holdings SET status = 'active', updated_at = NOW()
+      WHERE id = ${fund.id} AND status = 'pending'
+    `
+
+    results.push({ fund: fund.name, price: nav.price, date: nav.date, status: 'ok' })
+  }
+
+  revalidatePath('/dashboard')
+  revalidatePath('/admin')
+  return results
+}
 
 export async function addFundPriceAction(formData: FormData) {
   const holdingId = parseInt(formData.get('holding_id') as string)

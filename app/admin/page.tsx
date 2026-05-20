@@ -1,6 +1,7 @@
 import { sql } from '@/lib/db'
 import { Account, Holding, FundPrice } from '@/lib/types'
 import { addFundPriceAction, addTransactionAction, updateCashAction } from './actions'
+import { FetchFundPricesButton } from '@/components/admin/FetchFundPricesButton'
 
 export const dynamic = 'force-dynamic'
 
@@ -74,6 +75,20 @@ export default async function AdminPage() {
         <h1 className="text-sm font-bold mb-4 tracking-widest" style={{ color: 'var(--foreground)' }}>
           ADMIN PANEL
         </h1>
+
+        {/* Auto-fetch fund prices */}
+        <div style={cardStyle} className="mb-4">
+          <div className="text-xs mb-3" style={{ color: 'var(--muted-foreground)' }}>
+            <span style={{ color: 'var(--green)' }}>$</span> cron --fund-prices
+          </div>
+          <h2 className="text-xs font-bold mb-1 tracking-wider" style={{ color: 'var(--foreground)' }}>
+            AUTO-HENTING AV FONDSPRISER
+          </h2>
+          <p className="text-xs mb-3" style={{ color: 'var(--muted-foreground)' }}>
+            Henter daglig kurs fra storebrand.no automatisk kl. 18:00 (man–fre). Trykk for å kjøre nå.
+          </p>
+          <FetchFundPricesButton />
+        </div>
 
         {/* Fund price form */}
         <div style={cardStyle}>
