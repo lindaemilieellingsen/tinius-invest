@@ -39,7 +39,7 @@ export function DashboardClient({
     <div>
       {/* Nav */}
       <nav
-        className="flex items-center justify-between px-4 py-2 border-b text-xs mb-4"
+        className="flex flex-col sm:flex-row sm:items-center sm:justify-between px-4 py-2 border-b text-xs mb-4 gap-2"
         style={{ borderColor: 'var(--border)', backgroundColor: 'var(--card)' }}
       >
         <div className="flex items-center gap-4">

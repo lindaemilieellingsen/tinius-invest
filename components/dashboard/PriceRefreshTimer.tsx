@@ -68,14 +68,14 @@ export function PriceRefreshTimer({ onPricesUpdate, intervalSeconds = 60 }: Prop
 
       {/* Countdown */}
       {!isLoading && (
-        <span>
+        <span className="hidden sm:inline">
           oppdateres om <span style={{ color: 'var(--foreground)' }}>{formatTime(countdown)}</span>
         </span>
       )}
 
       {/* Last updated */}
       {lastUpdated && (
-        <span>
+        <span className="hidden sm:inline">
           | sist: <span style={{ color: 'var(--foreground)' }}>
             {lastUpdated.toLocaleTimeString('nb-NO', { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
           </span>

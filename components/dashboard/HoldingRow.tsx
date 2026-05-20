@@ -64,19 +64,19 @@ export function HoldingRow({ holding, livePrices, usdNokRate }: Props) {
       </td>
 
       {/* Shares */}
-      <td className="py-2 pr-4 text-right" style={{ color: 'var(--muted-foreground)' }}>
+      <td className="py-2 pr-4 text-right hidden sm:table-cell" style={{ color: 'var(--muted-foreground)' }}>
         {parseFloat(holding.shares).toFixed(0)}
       </td>
 
       {/* GAV */}
-      <td className="py-2 pr-4 text-right" style={{ color: 'var(--muted-foreground)' }}>
+      <td className="py-2 pr-4 text-right hidden sm:table-cell" style={{ color: 'var(--muted-foreground)' }}>
         {holding.currency === 'USD'
           ? formatUsd(parseFloat(holding.gav_per_share))
           : formatNok(parseFloat(holding.gav_per_share))}
       </td>
 
       {/* Current price */}
-      <td className="py-2 pr-4 text-right">
+      <td className="py-2 pr-4 text-right hidden sm:table-cell">
         {isPending || !hasPrice ? (
           <span style={{ color: 'var(--muted-foreground)' }}>—</span>
         ) : holding.type === 'stock' && displayPrice ? (
