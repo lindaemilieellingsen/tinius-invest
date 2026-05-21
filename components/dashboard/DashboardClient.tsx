@@ -67,7 +67,7 @@ export function DashboardClient({
         />
 
         <div className="mt-2 text-xs text-right" style={{ color: 'var(--muted-foreground)' }}>
-          USD/NOK: {usdNokRate.toFixed(4)} // Frankfurter API
+          USD/NOK: {usdNokRate.toFixed(2)} // Frankfurter API
         </div>
       </div>
 
