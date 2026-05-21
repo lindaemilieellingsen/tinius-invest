@@ -109,8 +109,8 @@ export function formatNok(amount: number): string {
   return new Intl.NumberFormat('nb-NO', {
     style: 'currency',
     currency: 'NOK',
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
   }).format(amount)
 }
 
@@ -125,5 +125,5 @@ export function formatUsd(amount: number): string {
 
 export function formatPercent(value: number): string {
   const sign = value >= 0 ? '+' : ''
-  return `${sign}${value.toFixed(2)}%`
+  return `${sign}${value.toFixed(1)}%`
 }
