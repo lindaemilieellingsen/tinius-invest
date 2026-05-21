@@ -33,7 +33,7 @@ export async function GET(request: Request) {
     await sql`
       INSERT INTO fund_prices (holding_id, price_nok, price_date, note)
       VALUES (${fund.id}, ${nav.price}, ${nav.date}, 'auto-hentet fra storebrand.no')
-      ON CONFLICT DO NOTHING
+      ON CONFLICT (holding_id, price_date) DO UPDATE SET price_nok = EXCLUDED.price_nok, note = EXCLUDED.note
     `
 
     // Activate holding if it was pending
