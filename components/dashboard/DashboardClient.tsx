@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
 import { LivePrice, Account, Holding, FundPrice } from '@/lib/types'
 import { PortfolioHeader } from './PortfolioHeader'
 import { CombinedHoldingsTable } from './CombinedHoldingsTable'
@@ -30,10 +30,10 @@ export function DashboardClient({
 
   const summary = buildPortfolioSummary(accounts, holdings, livePrices, usdNokRate, fundPrices)
 
-  function handlePricesUpdate(prices: LivePrice[], rate: number) {
+  const handlePricesUpdate = useCallback((prices: LivePrice[], rate: number) => {
     setLivePrices(prices)
     setUsdNokRate(rate)
-  }
+  }, [])
 
   return (
     <div>
