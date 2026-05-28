@@ -18,10 +18,10 @@ export async function fetchStorebrandNAV(isin: string): Promise<{ price: number;
     if (!res.ok) throw new Error(`HTTP ${res.status}`)
     const html = await res.text()
 
-    // Pattern: "Kurs:  2817.12  NOK  (19.05.2026)"
-    const match = html.match(/Kurs[:\s]+([\d.,]+)\s*NOK\s*\((\d{2})\.(\d{2})\.(\d{4})\)/)
+    // Pattern in HTML: <span class="basicLabel">Kurs</span>:&nbsp;<span class="basicValue number2">2891.31</span>&nbsp;NOK&nbsp;(27.05.2026)
+    const match = html.match(/basicLabel">Kurs<\/span>:[\s\S]{0,200}?basicValue number2">([\d.,]+)<\/span>[\s\S]{0,100}?\((\d{2})\.(\d{2})\.(\d{4})\)/)
     if (!match) {
-      console.error(`NAV pattern not found for ${isin}. HTML snippet:`, html.slice(0, 2000))
+      console.error(`NAV pattern not found for ${isin}`)
       return null
     }
 
