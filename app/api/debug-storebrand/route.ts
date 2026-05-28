@@ -13,19 +13,12 @@ export async function GET() {
   const r = await fetch(`https://www.storebrand.no/privat/fondsark/storebrand?isin=${isin}`, { cache: 'no-store', headers: HEADERS })
   const html = await r.text()
 
-  // Find all occurrences of "Kurs" with surrounding context
-  const kursContexts: string[] = []
-  let idx = 0
-  while ((idx = html.indexOf('Kurs', idx)) !== -1) {
-    kursContexts.push(html.slice(Math.max(0, idx - 50), idx + 100))
-    idx += 4
-  }
+  // Test new regex
+  const match = html.match(/basicLabel">Kurs<\/span>:[\s\S]{0,200}?basicValue number2">([\d.,]+)<\/span>[\s\S]{0,100}?\((\d{2})\.(\d{2})\.(\d{4})\)/)
 
-  // Also look for any data-* attributes that might contain NAV
-  const dataAttrs = [...html.matchAll(/data-[a-z-]*(?:nav|kurs|pris|price|nav)[^=]*="([^"]+)"/gi)].map(m => m[0])
+  // Show 400 chars around the Kurs span for context
+  const kursIdx = html.indexOf('basicLabel">Kurs')
+  const context = kursIdx >= 0 ? html.slice(kursIdx, kursIdx + 400) : 'NOT FOUND'
 
-  // Look for any JSON-like objects with price data
-  const pricePatterns = [...html.matchAll(/["'](?:nav|kurs|price|pris|nav)["']\s*:\s*["']?[\d.,]+["']?/gi)].map(m => m[0])
-
-  return NextResponse.json({ kursContexts, dataAttrs, pricePatterns, htmlLength: html.length })
+  return NextResponse.json({ matched: !!match, matchResult: match ? match[0].slice(0, 200) : null, context })
 }
