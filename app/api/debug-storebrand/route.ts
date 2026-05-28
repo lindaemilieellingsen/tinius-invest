@@ -8,26 +8,35 @@ const HEADERS = {
   'Accept-Language': 'nb-NO,no;q=0.9,en;q=0.8',
 }
 
+async function tryUrl(url: string) {
+  try {
+    const r = await fetch(url, { cache: 'no-store', headers: HEADERS })
+    const ct = r.headers.get('content-type') ?? ''
+    const body = await r.text()
+    return { status: r.status, ct, body: body.slice(0, 300) }
+  } catch (e) { return { error: String(e) } }
+}
+
 export async function GET() {
   const isin = 'NO0010817893'
 
-  // Test 1: ?format=json
-  let jsonResult: unknown = null
-  try {
-    const r = await fetch(`https://www.storebrand.no/privat/fondsark/storebrand?isin=${isin}&format=json`, { cache: 'no-store', headers: HEADERS })
-    const contentType = r.headers.get('content-type') ?? ''
-    const body = await r.text()
-    jsonResult = { status: r.status, contentType, bodyStart: body.slice(0, 500) }
-  } catch (e) { jsonResult = { error: String(e) } }
+  const [a, b, c, d, e] = await Promise.all([
+    tryUrl(`https://www.storebrand.no/api/fund/${isin}`),
+    tryUrl(`https://www.storebrand.no/api/funds?isin=${isin}`),
+    tryUrl(`https://www.storebrand.no/global/components/FundSheet/GetFundByIsin?isin=${isin}`),
+    tryUrl(`https://connect.storebrand.no/api/v1/funds/${isin}/nav`),
+    tryUrl(`https://www.storebrand.no/privat/fondsark/storebrand/data?isin=${isin}`),
+  ])
 
-  // Test 2: plain HTML
-  let htmlResult: unknown = null
+  // Extract all script src tags from fondsark page
+  let scripts: string[] = []
   try {
     const r = await fetch(`https://www.storebrand.no/privat/fondsark/storebrand?isin=${isin}`, { cache: 'no-store', headers: HEADERS })
-    const body = await r.text()
-    const match = body.match(/Kurs[:\s]+([\d.,]+)\s*NOK\s*\((\d{2})\.(\d{2})\.(\d{4})\)/)
-    htmlResult = { status: r.status, match: match?.[0] ?? null, bodyStart: body.slice(0, 800) }
-  } catch (e) { htmlResult = { error: String(e) } }
+    const html = await r.text()
+    scripts = [...html.matchAll(/src="([^"]+)"/g)]
+      .map(m => m[1])
+      .filter(s => s.includes('storebrand') || s.includes('fund') || s.includes('fond'))
+  } catch {}
 
-  return NextResponse.json({ jsonResult, htmlResult })
+  return NextResponse.json({ scripts, endpoints: { a, b, c, d, e } })
 }
