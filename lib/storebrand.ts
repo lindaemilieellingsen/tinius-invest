@@ -19,7 +19,7 @@ export async function fetchStorebrandNAV(isin: string): Promise<{ price: number;
     const html = await res.text()
 
     // Pattern in HTML: <span class="basicLabel">Kurs</span>:&nbsp;<span class="basicValue number2">2891.31</span>&nbsp;NOK&nbsp;(27.05.2026)
-    const match = html.match(/basicLabel">Kurs<\/span>:[\s\S]{0,200}?basicValue number2">([\d.,]+)<\/span>[\s\S]{0,100}?\((\d{2})\.(\d{2})\.(\d{4})\)/)
+    const match = html.match(/basicLabel">Kurs<\/span>:[\s\S]{0,200}?basicValue number2">([\d.,]+)<\/span>[\s\S]{0,200}?<span>(\d{2})\.(\d{2})\.(\d{4})<\/span>/)
     if (!match) {
       console.error(`NAV pattern not found for ${isin}`)
       return null
